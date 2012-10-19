@@ -22,7 +22,7 @@ CanvasRenderingContext2D.prototype.fillRoundedRect = function (x, y, w, h, r) {
 
 CanvasRenderingContext2D.prototype.fillCircle = function (x, y, r) {
 	this.beginPath();
-	this.arc(x, y, r, 0, Math.PI*2, true); 
+	this.arc(x, y, r, 0, Math.PI*2, true);
 	this.closePath();
 	this.fill();
 };
@@ -35,7 +35,7 @@ function NPong(opt) {
 	};
 	$.extend(options, opt);
 	if (options.gameId) options.join = true;
-	
+
 	// canvas must be defined
 	if (!(options.canvas instanceof HTMLCanvasElement))
 		throw 'canvas is not a Canvas';
@@ -51,7 +51,7 @@ function NPong(opt) {
 	var gameOffset = new Vector();
 	var playing = false;
 	var ctx = options.canvas.getContext('2d');
-	
+
 	var gameConfig = {
 		gameId: options.gameId
 	};
@@ -60,7 +60,7 @@ function NPong(opt) {
 		pp: [],
 		p: []
 	};
-	
+
 	// we are joining?
 	if (options.join) {
 		if (gameConfig.gameId) {
@@ -75,11 +75,12 @@ function NPong(opt) {
 		// new game!
 		socket.emit('create', {name:'test'});
 	}
-		
+
 	socket.on('info', function (data) {
 		// game config was sent back to us
 		gameConfig = data;
 		window.location.hash = gameConfig.gameId;
+		if (opt.onJoin) opt.onJoin(data);
 		start();
 	});
 	socket.on('update', function (data) {
@@ -88,14 +89,14 @@ function NPong(opt) {
 	});
 	socket.on('kick', function () {
 		alert('You were kicked from the game due to inactivity!');
-		 gameState = {
+		gameState = {
 			b: [],
 			pp: [],
 			p: []
 		};
 	});
-	
-	
+
+
 	var d = 0;
 	function update() {
 		var balls = gameState.b,
@@ -105,16 +106,16 @@ function NPong(opt) {
 		d++;
 		// reset/clear the canvas
 		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-		
+
 		ctx.save();
-		
+
 		if (players.length < 2) {
 			playing = false;
 			return;
 		} else {
 			playing = true;
 		}
-		
+
 		var Center = Vector.average(board);
 		var grad = ctx.createRadialGradient(Center.x, Center.y, 0, Center.x, Center.y, 320);
 		grad.addColorStop(0, 'hsl('+(Math.floor(d/5)%360)+',50%,35%)');
@@ -130,7 +131,7 @@ function NPong(opt) {
 		}
 		ctx.lineTo(board[0].x, board[0].y);
 		ctx.fill();
-		
+
 		// draw each player
 		ctx.fillStyle  = 'white';
 		for (var i = 0; i < players.length; i++) {
@@ -138,10 +139,10 @@ function NPong(opt) {
 			if (i === gameState.me) {
 				ctx.fillStyle  = 'hsl('+(Math.floor((d/5)+180)%360)+',80%,50%)';
 			}
-			
+
 			// translate the canvas to the paddle's x,y coords
 			ctx.translate(players[i].x, players[i].y);
-			
+
 			// rotate the canvas by the paddle's theta
 			ctx.rotate(players[i].t);
 			ctx.fillRoundedRect(
@@ -157,14 +158,14 @@ function NPong(opt) {
 			ctx.fillText(players[i].s, -txtLen/2, gameConfig.paddleThickness/2 - 2);
 			ctx.restore();
 		}
-		
+
 		// draw the balls
 		for (var i = 0; i < balls.length; i++) {
 			ctx.fillCircle(balls[i].x, balls[i].y, gameConfig.ballRadius);
 		}
 		ctx.restore();
 	}
-	
+
 	//M is the mouse position
 	//Returns the point where the paddle should be, based on M
 	function getPaddleLocation(M) {
@@ -187,7 +188,7 @@ function NPong(opt) {
 
 		return Vector.add(A, Vector.scale(AB, t));
 	}
-	
+
 	function mousemove(e) {
 		// figure out where to put the paddle based on mouse position
 		if (playing) {
@@ -199,9 +200,9 @@ function NPong(opt) {
 		e.stopPropagation();
 		e.preventDefault();
 	}
-	
+
 	$(document).mousemove(mousemove).bind('touchmove', mousemove);
-	
+
 	function centerGame() {
 		var x = Math.floor(($(window).width() - gameConfig.canvasWidth)/2),
 			y = Math.floor(($(window).height() - gameConfig.canvasHeight)/2);
@@ -213,22 +214,22 @@ function NPong(opt) {
 			top: y+'px'
 		});
 	}
-	
-	
+
+
 	function start() {
 		//gameConfig.canvasWidth += 100;
 		//gameConfig.canvasHeight += 100;
-	
+
 		// internal canvas width and height
 		ctx.canvas.width = gameConfig.canvasWidth;
 		ctx.canvas.height = gameConfig.canvasHeight;
 		// html canvas element width and height
 		$(ctx.canvas).width(gameConfig.canvasWidth);
 		$(ctx.canvas).height(gameConfig.canvasHeight);
-	
+
 		$(window).resize(centerGame);
 		centerGame();
-		
+
 		function _update() {
 			update();
 			requestAnimationFrame(_update);
@@ -246,9 +247,9 @@ function NPong(opt) {
 			}
 			mouseMoved = false;
 		}, 30);
-		
+
 	}
-	
+
 	this.state = function () {
 		return gameState;
 	};

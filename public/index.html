@@ -24,6 +24,13 @@
 		width: 100%;
 		height: 100%;
 	}
+	#info {
+		position: absolute;
+		top: 10px;
+		left: 10px;
+		color: white;
+		font-family: monospace;
+	}
 	</style>
 	<script type="text/javascript" src="jquery.min.js"></script>
 	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
@@ -68,7 +75,10 @@
 				p = new NPong({
 					canvas: document.getElementById('game'),
 					gameId: gameId,
-					host: 'http://'+location.host
+					host: 'http://'+location.host,
+					onJoin: function (data) {
+						$('#info').html('Connected! Share the URL ('+window.location+') to invite friends.');
+					}
 				});
 			}
 		});
@@ -77,5 +87,6 @@
 </head>
 <body>
 	<canvas id="game"></canvas>
+	<div id="info">Connecting...</div>
 </body>
 </html>

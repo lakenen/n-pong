@@ -54,6 +54,8 @@ var Server = module.exports = function (options) {
 
 	this.io.configure(function () {
 		this.disable('log');
+		// The following two lines are here for deploying to heroku.
+		// Disable to allow websocket support.
 		this.set("transports", ["xhr-polling"]);
 		this.set("polling duration", 10);
 	});
