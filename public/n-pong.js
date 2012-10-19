@@ -41,7 +41,7 @@ function NPong(opt) {
 		throw 'canvas is not a Canvas';
 	try {
 		// open a socket connection
-		socket = io.connect(options.host);
+		socket = io.connect(options.host, {'sync disconnect on unload' : true});
 	} catch (e) {
 		console.log(e);
 		alert("Your browser doesn't support websockets! Try the latest version of chrome or safari!");
