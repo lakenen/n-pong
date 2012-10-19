@@ -10,6 +10,11 @@ var http = require('http'),
 
 var argv = require('optimist').argv;
 
+// assuming io is the Socket.IO server object
+io.configure(function () {
+	io.set("transports", ["xhr-polling"]);
+	io.set("polling duration", 10);
+});
 
 var mimeTypes = {
     "html": "text/html",
