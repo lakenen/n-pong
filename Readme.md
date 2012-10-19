@@ -4,6 +4,8 @@ N-pong is a multiplayer real-time pong game written in Node.js
 
 <img src="//github.com/camupod/n-pong/raw/master/n-pong.png">
 
+[Try it out!](http://n-pong.lakenen.com) *if you're lucky...*
+
 ## Overview
 
 Disclaimer: this code is extremely alpha, so just expect to see a lot of bugs.
