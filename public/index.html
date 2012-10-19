@@ -1,7 +1,7 @@
-<!DOCTYPE HTML> 
-<html> 
-<head> 
-	<title>N-Pong</title> 
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>N-Pong</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; user-scalable=no;" >
 	<style type="text/css">
@@ -11,12 +11,12 @@
 		height: 100%;
 		overflow: hidden;
 	}
-	
+
 	body {
 		background: black;
 		position: relative;
 	}
-	
+
 	#game {
 		position: absolute;
 	}
@@ -30,7 +30,7 @@
 	<script type="text/javascript" src="Vector.js"></script>
 	<script type="text/javascript" src="n-pong.js"></script>
 	<script type="text/javascript">
-	
+
 // requestAnimationFrame polyfill by Erik Möller
 // fixes from Paul Irish and Tino Zijdel
 (function() {
@@ -38,15 +38,15 @@
 	var vendors = ['ms', 'moz', 'webkit', 'o'];
 	for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
 		window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-		window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] 
+		window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame']
 								   || window[vendors[x]+'CancelRequestAnimationFrame'];
 	}
- 
+
 	if (!window.requestAnimationFrame) {
 		window.requestAnimationFrame = function(callback, element) {
 			var currTime = new Date().getTime();
 			var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-			var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
+			var id = window.setTimeout(function() { callback(currTime + timeToCall); },
 			  timeToCall);
 			lastTime = currTime + timeToCall;
 			return id;
@@ -58,22 +58,22 @@
 		};
 	}
 }());
-		
+
 		$(function () {
 			var gameId = window.location.hash.substr(1);
 
 			startPong();
-			
+
 			function startPong () {
 				p = new NPong({
 					canvas: document.getElementById('game'),
 					gameId: gameId,
-					host: 'http://localhost:8000'
+					host: 'http://'+location.host
 				});
 			}
 		});
 	</script>
-	
+
 </head>
 <body>
 	<canvas id="game"></canvas>
