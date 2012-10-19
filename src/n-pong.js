@@ -8,6 +8,7 @@ var http = require('http'),
 	GameManager = require('./gamemanager.js'),
 	io = require('socket.io');
 
+var argv = require('optimist').argv;
 
 
 var mimeTypes = {
@@ -19,7 +20,7 @@ var mimeTypes = {
     "css": "text/css"};
 
 var serverDefaults = {
-	port: 8000,
+	port: argv.p || process.env.PORT || 8000,
 	maxGames: 1
 };
 
@@ -54,7 +55,7 @@ var Server = module.exports = function (options) {
 
 	this.io.configure(function () {
 		this.disable('log');
-	})
+	});
 
 	this.io.on('connection', this._handleSocketConnection);
 
