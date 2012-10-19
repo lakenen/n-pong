@@ -1,0 +1,12 @@
+{
+  "name": "n-pong",
+  "version": "0.1.0",
+  "dependencies": {
+    "underscore": "1.4.x",
+    "socket.io": "0.9.x"
+  },
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
+  }
+}

@@ -6,7 +6,9 @@ N-pong is a multiplayer real-time pong game written in Node.js
 
 ## Overview
 
-To run an instance of N-pong, have node installed, then run `node src/n-pong.js`. The server will listen on port 8000. Navigate to the page in a browser, and it will "join" a new game. You won't see anything, but the URL will be appended with #gameid, so copy that URL and navigate to it in another tab to add a player.
+Disclaimer: this code is extremely alpha, so just expect to see a lot of bugs.
+
+To run an instance of N-pong, have node and npm installed, run `npm install`, then run `node src/n-pong.js`. The server will listen on port 8000. Navigate to the page in a browser, and it will "join" a new game. You won't see anything, but the URL will be appended with #gameid, so copy that URL and navigate to it in another tab to add a player.
 
 
 ## License
